@@ -11,6 +11,7 @@ body:
         - is **accurate**, and still will be in a year or two (avoid prices and anything that changes often - unless it's [live data](https://github.com/DigiNode-Tools/digibyte-digifacts#live-data))
         - is **neutral** - no marketing or hype. A single DigiFact telling people about a DigiByte project and what it does is fine.
         - is **short**: two or three sentences
+        - **stands alone** - DigiFacts are shown one at a time, in any order, so it must make sense on its own (no "also" or "another", and no references to other DigiFacts)
         - is written in **English** - it's translated into the other languages afterwards
 
         **Live data:** a DigiFact can include numbers that update automatically, such as the number of DigiByte blocks. See [Live data](https://github.com/DigiNode-Tools/digibyte-digifacts#live-data) for the values you can use and how.

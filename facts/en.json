@@ -450,7 +450,7 @@
     "content": "DigiByte keeps track of coins like banknotes, in a design called \"UTXO\" (unspent transaction outputs). When you pay, your wallet spends whole \"notes\" and sends the change back to a new address of yours - which is why a wallet sometimes shows addresses you didn't create yourself."
   },
   "digifact-bfwh": {
-    "content": "DigiByte also runs a \"testnet\" - a separate, public DigiByte network where the coins have no value - so developers can try out new ideas without risking real DGB."
+    "content": "DigiByte runs a \"testnet\" - a separate, public DigiByte network where the coins have no value - so developers can try out new ideas without risking real DGB."
   },
   "digifact-dq7n": {
     "content": "One of DigiByte's five mining algorithms, Odocrypt, changes itself every 10 days. This makes it very hard to build dedicated mining chips (ASICs) for it, so it is mined with reprogrammable chips called FPGAs."
@@ -884,7 +884,7 @@
     "content": "A \"51% attack\" is when one group controls most of the mining power. It could reverse its own recent payments, but it can't take coins from other people's addresses or create coins out of thin air."
   },
   "digifact-dpkc": {
-    "content": "DigiFacts are available in 12 languages, and anyone can help translate them - no coding needed.",
+    "content": "DigiFacts are translated by volunteers, and anyone can help - no coding needed. A DigiFact only appears in a language once it's been translated, so translations are never mixed with English.",
     "url": "https://hosted.weblate.org/engage/digibyte-digifacts/",
     "link_social": " Help translate: https://hosted.weblate.org/engage/digibyte-digifacts/",
     "link_html": " Help translate <a target=\"_blank\" href=\"https://hosted.weblate.org/engage/digibyte-digifacts/\">here</a>.",
@@ -892,17 +892,17 @@
   },
   "digifact-7r4h": {
     "content": "You can add DigiFacts to your own website, with a small embed or the WordPress plugin.",
-    "url": "https://digifacts.diginode.tools/help/",
-    "link_social": " Learn more: https://digifacts.diginode.tools/help/",
-    "link_html": " Learn more <a target=\"_blank\" href=\"https://digifacts.diginode.tools/help/\">here</a>.",
-    "link_md": " Learn more [here](https://digifacts.diginode.tools/help/)."
+    "url": "https://digifacts.diginode.tools/",
+    "link_social": " Learn more: https://digifacts.diginode.tools/",
+    "link_html": " Learn more <a target=\"_blank\" href=\"https://digifacts.diginode.tools/\">here</a>.",
+    "link_md": " Learn more [here](https://digifacts.diginode.tools/)."
   },
   "digifact-f5fj": {
-    "content": "Every day at midnight UTC, a new DigiFact of the day is chosen - the same one in every language - with an RSS feed for apps and bots.",
-    "url": "https://digifacts.diginode.tools/help/",
-    "link_social": " Learn more: https://digifacts.diginode.tools/help/",
-    "link_html": " Learn more <a target=\"_blank\" href=\"https://digifacts.diginode.tools/help/\">here</a>.",
-    "link_md": " Learn more [here](https://digifacts.diginode.tools/help/)."
+    "content": "Every day at midnight UTC, a new DigiFact of the day is chosen, with an RSS feed for apps and bots. Every DigiFact is shown once before any repeats.",
+    "url": "https://digifacts.diginode.tools/",
+    "link_social": " Learn more: https://digifacts.diginode.tools/",
+    "link_html": " Learn more <a target=\"_blank\" href=\"https://digifacts.diginode.tools/\">here</a>.",
+    "link_md": " Learn more [here](https://digifacts.diginode.tools/)."
   },
   "digifact-cjwx": {
     "content": "Tor is a free network that hides where internet traffic comes from, by passing it through three volunteer-run relays - each of which only knows the step before and the step after.",
@@ -1099,7 +1099,7 @@
     "content": "Most miners join a mining pool: they combine their mining power and share the rewards, so they're paid small amounts regularly instead of waiting a long time to find a whole block on their own."
   },
   "digifact-kwrb": {
-    "content": "You can also \"solo mine\" - mine directly to your own DigiByte node and keep the whole block reward when you find a block. It's all or nothing, so it suits miners with plenty of mining power, or a lot of patience."
+    "content": "You can \"solo mine\" - mine directly to your own DigiByte node and keep the whole block reward when you find a block. It's all or nothing, so it suits miners with plenty of mining power, or a lot of patience."
   },
   "digifact-rv2r": {
     "content": "\"Hashrate\" is how many guesses per second miners are making at the mining puzzle. The more hashrate securing DigiByte, the harder and more expensive it is to attack."
@@ -1135,5 +1135,26 @@
   },
   "digifact-nkzz": {
     "content": "A seed server only helps a new node make its first connections. It can't see your transactions or control your node, and your node still checks every block and transaction for itself."
+  },
+  "new": {
+    "content": "Know something interesting about DigiByte that isn't a DigiFact yet? Anyone can suggest a new DigiFact with a short online form, and every suggestion is checked before it's added.",
+    "url": "https://github.com/DigiNode-Tools/digibyte-digifacts/issues/new?template=new-digifact.yml",
+    "link_social": " Suggest one here: https://github.com/DigiNode-Tools/digibyte-digifacts/issues/new?template=new-digifact.yml",
+    "link_html": " Suggest one <a target=\"_blank\" href=\"https://github.com/DigiNode-Tools/digibyte-digifacts/issues/new?template=new-digifact.yml\">here</a>.",
+    "link_md": " Suggest one [here](https://github.com/DigiNode-Tools/digibyte-digifacts/issues/new?template=new-digifact.yml)."
+  },
+  "new-2": {
+    "content": "Spotted a DigiFact that's wrong or out of date? Anyone can suggest a correction: find it on the DigiFacts proofreading page and click Suggest a change under it.",
+    "url": "https://digifacts.diginode.tools/proofread/en/",
+    "link_social": " Suggest a change here: https://digifacts.diginode.tools/proofread/en/",
+    "link_html": " Suggest a change <a target=\"_blank\" href=\"https://digifacts.diginode.tools/proofread/en/\">here</a>.",
+    "link_md": " Suggest a change [here](https://digifacts.diginode.tools/proofread/en/)."
+  },
+  "new-3": {
+    "content": "DigiFacts are free for anyone to use - in an app, a chat bot, a website or on social media. They're published as simple JSON files and an RSS feed, in every language they've been translated into.",
+    "url": "https://digifacts.diginode.tools/",
+    "link_social": " Learn more: https://digifacts.diginode.tools/",
+    "link_html": " Learn more <a target=\"_blank\" href=\"https://digifacts.diginode.tools/\">here</a>.",
+    "link_md": " Learn more [here](https://digifacts.diginode.tools/)."
   }
 }
