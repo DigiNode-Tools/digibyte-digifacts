@@ -1136,21 +1136,21 @@
   "digifact-nkzz": {
     "content": "A seed server only helps a new node make its first connections. It can't see your transactions or control your node, and your node still checks every block and transaction for itself."
   },
-  "new": {
+  "digifact-vckr": {
     "content": "Know something interesting about DigiByte that isn't a DigiFact yet? Anyone can suggest a new DigiFact with a short online form, and every suggestion is checked before it's added.",
     "url": "https://github.com/DigiNode-Tools/digibyte-digifacts/issues/new?template=new-digifact.yml",
     "link_social": " Suggest one here: https://github.com/DigiNode-Tools/digibyte-digifacts/issues/new?template=new-digifact.yml",
     "link_html": " Suggest one <a target=\"_blank\" href=\"https://github.com/DigiNode-Tools/digibyte-digifacts/issues/new?template=new-digifact.yml\">here</a>.",
     "link_md": " Suggest one [here](https://github.com/DigiNode-Tools/digibyte-digifacts/issues/new?template=new-digifact.yml)."
   },
-  "new-2": {
+  "digifact-ppss": {
     "content": "Spotted a DigiFact that's wrong or out of date? Anyone can suggest a correction: find it on the DigiFacts proofreading page and click Suggest a change under it.",
     "url": "https://digifacts.diginode.tools/proofread/en/",
     "link_social": " Suggest a change here: https://digifacts.diginode.tools/proofread/en/",
     "link_html": " Suggest a change <a target=\"_blank\" href=\"https://digifacts.diginode.tools/proofread/en/\">here</a>.",
     "link_md": " Suggest a change [here](https://digifacts.diginode.tools/proofread/en/)."
   },
-  "new-3": {
+  "digifact-hcj4": {
     "content": "DigiFacts are free for anyone to use - in an app, a chat bot, a website or on social media. They're published as simple JSON files and an RSS feed, in every language they've been translated into.",
     "url": "https://digifacts.diginode.tools/",
     "link_social": " Learn more: https://digifacts.diginode.tools/",
