@@ -215,7 +215,7 @@ function digibyte_digifacts_shortcode() {
 		. '<h5 class="digifact-title">' . esc_html( $fact['title'] ) . '</h5>'
 		. '<div class="digifact-content">' . $fact['content'] . '</div>'
 		. ( 'no' !== get_option( 'digibyte_digifacts_credit', 'yes' )
-			? '<p class="digifact-credit"><a href="' . esc_url( DIGIBYTE_DIGIFACTS_URL . '/help/' ) . '" target="_blank" rel="noopener">About DigiByte DigiFacts</a></p>'
+			? '<p class="digifact-credit"><a href="' . esc_url( DIGIBYTE_DIGIFACTS_URL . '/' ) . '" target="_blank" rel="noopener">About DigiByte DigiFacts</a></p>'
 			: '' )
 		. '</div>';
 }

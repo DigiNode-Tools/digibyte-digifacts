@@ -133,7 +133,7 @@
     if (host.getAttribute("data-credit") !== "no") {
       var credit = el("p", "c");
       var link = el("a", "", "About DigiByte DigiFacts");
-      link.href = SITE + "/help/";
+      link.href = SITE + "/";
       link.target = "_blank";
       link.rel = "noopener";
       credit.appendChild(link);

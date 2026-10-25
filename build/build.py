@@ -490,7 +490,7 @@ def stats_page(stats, en_facts, count):
 <div><h2>Where clicks come from</h2><ul>{top(stats["referrers"])}</ul></div>
 <div><h2>Countries</h2><ul>{top(stats["countries"])}</ul></div>
 </div>
-<p class="muted">Updated every hour. <a href="../stats.json">stats.json</a> · <a href="../help/">About DigiFacts</a></p>"""
+<p class="muted">Updated every hour. <a href="../stats.json">stats.json</a> · <a href="../">About DigiFacts</a></p>"""
     meta = preview_tags("DigiFacts link clicks", "Which DigiFacts people click on most.", CARDS[0], SITE_URL + "/stats/")
     return PAGE.format(lang="en", title="DigiFacts link clicks", body=body, meta=meta)
 
@@ -546,13 +546,13 @@ def today_and_feed(lang, loc, count, day, fact_tags):
             "<item>"
             f"<title>{html.escape(e['title'])}</title>"
             f"<description>{html.escape(e['text'])}</description>"
-            f"<link>{html.escape(e['short_link'] or SITE_URL + '/help/')}</link>"
+            f"<link>{html.escape(e['short_link'] or SITE_URL + '/')}</link>"
             f"<guid isPermaLink=\"false\">digifacts-{lang}-{e['date']}</guid>"
             f"<pubDate>{email.utils.formatdate(d * 86400, usegmt=True)}</pubDate>"
             "</item>")
     feed = ('<?xml version="1.0" encoding="UTF-8"?>\n<rss version="2.0"><channel>'
             f"<title>DigiByte DigiFacts ({html.escape(LANGUAGE_NAMES[lang])})</title>"
-            f"<link>{SITE_URL}/help/</link>"
+            f"<link>{SITE_URL}/</link>"
             "<description>A DigiFact - a bite-size fact about DigiByte - every day.</description>"
             f"<language>{lang}</language>"
             + "".join(items) + "</channel></rss>\n")
@@ -728,7 +728,7 @@ def help_page(langs, info):
 <p>DigiFacts are maintained by <a href="https://diginode.tools">DigiNode Tools</a>. If you find them useful, please consider <a href="{SPONSOR_URL}">sponsoring DigiNode Tools</a>.</p>
 <p class="muted">Last published {time.strftime("%Y-%m-%d %H:%M UTC", time.gmtime(info["built"]))}.</p>"""
     meta = preview_tags("DigiFacts", "Bite-size facts about DigiByte, for apps, websites and social media - in "
-                        f"{len(langs)} languages, free to use.", CARDS[0], SITE_URL + "/help/")
+                        f"{len(langs)} languages, free to use.", CARDS[0], SITE_URL + "/")
     return PAGE.format(lang="en", title="DigiByte DigiFacts", body=body, meta=meta)
 
 
@@ -783,10 +783,10 @@ def proofread_page(lang, langs, en_facts, loc, count, fact_tags, stats, status, 
              f"The English DigiFacts on the left, and the {html.escape(LANGUAGE_NAMES[lang])} translation on the right.")
     body = f"""<h1>DigiFacts proofreading: {html.escape(LANGUAGE_NAMES[lang])}</h1>
 <p>{intro} Spotted a mistake, or a DigiFact that's out of date? Click <b>Suggest a change</b> under it. Translations are improved on <a href="{WEBLATE_URL}">Weblate</a>. Thank you!</p>
-<p class="muted">Each DigiFact has an <b>ID</b>, like <code>digifact-7ttm</code>, that never changes (its number can, when DigiFacts are removed). Websites can use the IDs and tags to hide particular DigiFacts - see <a href="../../help/#hiding">hiding DigiFacts</a>.</p>
+<p class="muted">Each DigiFact has an <b>ID</b>, like <code>digifact-7ttm</code>, that never changes (its number can, when DigiFacts are removed). Websites can use the IDs and tags to hide particular DigiFacts - see <a href="../../#hiding">hiding DigiFacts</a>.</p>
 <p class="langs">{links}</p>
 {"".join(rows)}
-<p class="muted"><a href="../../help/">About DigiFacts</a></p>"""
+<p class="muted"><a href="../../">About DigiFacts</a></p>"""
     meta = preview_tags(f"DigiFacts proofreading: {LANGUAGE_NAMES[lang]}", "Every DigiFact, to read through and "
                         "suggest changes.", CARDS[0], f"{SITE_URL}/proofread/{lang}/")
     return PAGE.format(lang=lang, title=f"DigiFacts proofreading: {LANGUAGE_NAMES[lang]}", body=body, meta=meta)
@@ -823,10 +823,6 @@ def main():
                           "tags": fact_tags.get(key, [])} for key, f in loc.items()}
             files[f"{lang}/{fmt}.json"] = to_json(data)
         files[f"{lang}/today.json"], files[f"{lang}/feed.xml"] = today_and_feed(lang, loc, count, day, fact_tags)
-    # DigiNode Tools v26.10.x and older use '/?lang=en&format=social'. They hid the DigiFact about DigiNode Tools by
-    # its old key (digifact78), so it's left out for them here.
-    files["index.html"] = to_json({k: v for k, v in json.loads(files["en/social.json"]).items()
-                                   if "diginode-tools" not in v["tags"]})
     published = [l for l in langs if l in langs_info]
     files["languages.json"] = json.dumps(published) + "\n"
     with open(os.path.join(ROOT, "embed", "digifacts.js"), encoding="utf-8") as f:
@@ -859,7 +855,12 @@ def main():
         "content_hash": digest,
     }
     files["info.json"] = to_json(info)
-    files["help/index.html"] = help_page(published, info)
+    # The help page is the home page (since 2026-10-25). DigiNode Tools older than v26.10.05 read DigiFacts from the
+    # home page ('/?lang=en&format=social'): they keep their saved DigiFacts (with an error) until they update.
+    files["index.html"] = re.sub(r'(href|src)="\.\./', r'\1="', help_page(published, info))
+    files["help/index.html"] = ('<!doctype html><meta charset="utf-8"><title>DigiByte DigiFacts</title>'
+                                f'<link rel="canonical" href="{SITE_URL}/"><meta http-equiv="refresh" content="0; url=../">'
+                                '<a href="../">DigiByte DigiFacts</a>\n')   # The old address of the help page
     for lang in langs:   # Every language, published or not - translators need to see what's missing
         files[f"proofread/{lang}/index.html"] = proofread_page(lang, langs, localised["en"], localised[lang], count,
                                                                fact_tags, stats, statuses[lang], facts)

@@ -8,7 +8,7 @@
 
 Bite-size facts about DigiByte, for apps, websites and social media. Available in 12 languages, with live data from the DigiByte blockchain.
 
-**Website:** https://digifacts.diginode.tools/help/
+**Website:** https://digifacts.diginode.tools/
 
 ## About DigiFacts
 
@@ -110,7 +110,7 @@ If you're comfortable with pull requests, you can edit `facts/en.json` yourself:
 
 ### Tags
 
-[`tags.json`](tags.json) gives some DigiFacts a topic, by ID - for example, the DigiFacts about a particular project - so a website that's mentioned in DigiFacts can hide them on its own site (see [Hiding DigiFacts](https://digifacts.diginode.tools/help/#hiding)). If your project is mentioned and doesn't have a tag yet, open an issue to ask for one. To add a tag, describe it under `tags` and add it to the DigiFacts under `facts`.
+[`tags.json`](tags.json) gives some DigiFacts a topic, by ID - for example, the DigiFacts about a particular project - so a website that's mentioned in DigiFacts can hide them on its own site (see [Hiding DigiFacts](https://digifacts.diginode.tools/#hiding)). If your project is mentioned and doesn't have a tag yet, open an issue to ask for one. To add a tag, describe it under `tags` and add it to the DigiFacts under `facts`.
 
 ### Translating
 
