@@ -11,10 +11,11 @@
 #          3. Numbers the facts in the order they appear in facts/en.json (so deleting one never leaves a gap - a
 #             DigiFact's permanent ID is its key, e.g. digifact-7ttm), makes each title from the language's "_title"
 #             (e.g. "DigiFact #{number}"), fills in the live values (e.g. $blocks_tot_mil) and writes each language in each format (social, html, markdown),
-#             plus languages.json, info.json, and the help and proofreading pages. A fact that isn't translated yet
-#             is shown in English.
-#          4. Picks the DigiFact of the day (the same fact in every language, every fact once before any repeats)
-#             and writes <lang>/today.json and an RSS feed of the last 30 days, <lang>/feed.xml.
+#             plus languages.json, info.json, and the help and proofreading pages. Each language only has the facts
+#             with a current translation: a fact that isn't translated, or whose English wording has changed since
+#             it was translated (see build/translations.py), is left out until it's translated.
+#          4. Picks the DigiFact of the day (every fact once before any repeats) and writes <lang>/today.json and an
+#             RSS feed of the last 30 days, <lang>/feed.xml.
 #
 #          Everything here is public, so anyone can see exactly how DigiFacts are made.
 #
@@ -38,6 +39,9 @@ import shutil
 import statistics
 import sys
 import time
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import translations   # noqa: E402  (build/translations.py)
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -274,12 +278,13 @@ def load_tags(en):
 
 
 def fallbacks(lang, facts):
-    """The languages to take each DigiFact from, in order: e.g. en-gb -> en-gb, en; pt-br -> pt-br, pt, en.
-    A language variant (e.g. British English) only needs the DigiFacts that differ from its main language."""
+    """The languages to take each DigiFact from, in order: e.g. en-gb -> en-gb, en; pt-br -> pt-br, pt.
+    A language variant (e.g. British English) only needs the DigiFacts that differ from its main language. Other
+    languages never fall back to English: a DigiFact without a current translation is left out."""
     chain = [lang]
     if "-" in lang and lang.split("-")[0] in facts:
         chain.append(lang.split("-")[0])
-    if "en" not in chain:
+    if lang.split("-")[0] == "en" and "en" not in chain:
         chain.append("en")
     return chain
 
@@ -304,23 +309,31 @@ def safe_link(link, url):
     return all(a == url.rstrip("/") for a in found) and (bool(found) == bool(url and link))
 
 
-def localise(facts, titles, lang):
-    """The facts for one language, in English order, numbered from 1: the translation where there is one (for a
-    language variant, its own version or else its main language's), else the English fact. Each fact gets its
-    title, from the language's title (or its main language's, or the English one) and its number."""
+def localise(facts, titles, lang, record):
+    """The facts for one language, in English order, numbered as in English (DigiFact #12 is #12 in every language):
+    the translation where there is a current one (for a language variant, its own version or else its main
+    language's). A DigiFact without a current translation is left out (English and its variants have every fact).
+    Each fact gets its title, from the language's title (or its main language's, or the English one) and its number.
+    Returns (facts, status): status is {key: "translated" | "outdated" | "missing"} for every DigiFact."""
     en = facts["en"]
     chain = fallbacks(lang, facts)
-    title = next(titles[l] for l in chain if l in titles)
-    out, translated = {}, 0
+    title = next((titles[l] for l in chain if l in titles), titles["en"])
+    out, status = {}, {}
     for number, key in enumerate(en, start=1):
-        source = next((l for l in chain if facts[l].get(key, {}).get("content")), "en")
-        fact = dict(facts[source].get(key) or en[key])
+        source = None
+        for l in chain:
+            if facts[l].get(key, {}).get("content") and (l == "en" or translations.is_current(record, l, key, en[key]["content"])):
+                source = l
+                break
+        if source is None:
+            translated_somewhere = any(facts[l].get(key, {}).get("content") for l in chain)
+            status[key] = "outdated" if translated_somewhere else "missing"
+            continue
+        fact = dict(facts[source][key])
         if source != "en" and new_addresses(fact.get("content", ""), en[key]["content"]):
             warn(f"{source} {key}: the translation mentions a website the English DigiFact doesn't "
-                 f"({', '.join(sorted(new_addresses(fact['content'], en[key]['content'])))}) - shown in English instead")
-            source, fact = "en", dict(en[key])
-        if source == "en" and lang != "en" and not lang.startswith("en-"):
-            out[key] = dict(en[key], title=title.replace("{number}", str(number)), translated=False)
+                 f"({', '.join(sorted(new_addresses(fact['content'], en[key]['content'])))}) - left out")
+            status[key] = "missing"
             continue
         # A translation can change the words around a link, but never the link: it's always the English DigiFact's
         # address. (Anyone can translate, so a changed link could send people somewhere else.) If a translated link
@@ -335,10 +348,10 @@ def localise(facts, titles, lang):
                 fact[f] = en[key].get(f, "")
         if en[key].get("url") and not all(fact.get(f) for f in FORMATS.values()):
             for f in FORMATS.values():   # Translated text, but no translated link yet: use the next language's link
-                fact[f] = next((facts[l][key][f] for l in chain if facts[l].get(key, {}).get(f)), en[key].get(f, ""))
-        out[key] = dict(fact, title=title.replace("{number}", str(number)), translated=True)
-        translated += 1
-    return out, translated
+                fact[f] = next((facts[l][key][f] for l in chain + ["en"] if facts[l].get(key, {}).get(f)), en[key].get(f, ""))
+        out[key] = dict(fact, title=title.replace("{number}", str(number)), number=number, translated=source != "en" or lang == "en")
+        status[key] = "translated"
+    return out, status
 
 
 # ---------------------------------------------------------------------------------------------------------------
@@ -504,15 +517,14 @@ def fact_of_the_day(keys, day):
 
 def today_and_feed(lang, loc, count, day, fact_tags):
     """<lang>/today.json and <lang>/feed.xml (RSS) for one language."""
-    keys = list(loc)
-    numbers = {key: n for n, key in enumerate(keys, start=1)}
+    keys = list(loc)   # Only the language's DigiFacts (fully translated languages have the same order as English)
 
     def entry(d):
         key = fact_of_the_day(keys, d)
         f = loc[key]
         return {
             "date": time.strftime("%Y-%m-%d", time.gmtime(d * 86400)),
-            "number": numbers[key],
+            "number": f["number"],
             "key": key,
             "title": fill(f["title"], count),
             "url": f.get("url", ""),
@@ -671,7 +683,7 @@ def help_page(langs, info):
 <li><b>markdown</b> - links in Markdown: <code>Learn more [here](https://go.diginode.tools/7ttm).</code></li>
 <li><b>plain</b> - no link, just the fact (e.g. for small displays). The link is still in <code>short_link</code>, and the full address in <code>url</code>.</li>
 </ul>
-<p>A fact that isn't translated yet is included in English, so every language always has every fact.</p>
+<p>Each language only has the DigiFacts that are translated into it, so a translation is never mixed with English. When the English wording of a DigiFact changes, its translations are left out until they're updated. Every DigiFact keeps the same number in every language, so <b>DigiFact #12</b> is the same fact everywhere (some numbers are missing in languages that aren't fully translated yet).</p>
 <div class="scroll"><table>
 <tr><th>Language</th><th>Code</th><th>Files</th><th>Translated</th><th></th></tr>
 {rows}
@@ -680,7 +692,7 @@ def help_page(langs, info):
 <h2>Other files</h2>
 <ul>
 <li><a href="../languages.json"><code>/languages.json</code></a> - the language codes, as a JSON list.</li>
-<li><a href="../en/today.json"><code>/&lt;language&gt;/today.json</code></a> - the DigiFact of the day: the same fact for everyone, in every language, changing at midnight UTC. Every fact is shown once before any repeats. Includes the title, number, and the text in all three formats.</li>
+<li><a href="../en/today.json"><code>/&lt;language&gt;/today.json</code></a> - the DigiFact of the day, changing at midnight UTC. Every fact is shown once before any repeats, and every fully translated language shows the same fact. Includes the title, number, and the text in all three formats.</li>
 <li><a href="../en/feed.xml"><code>/&lt;language&gt;/feed.xml</code></a> - an RSS feed of the DigiFact of the day (the last 30 days). Use it with any RSS app, or an RSS bot to post DigiFacts to Discord, Telegram or social media.</li>
 <li><a href="../info.json"><code>/info.json</code></a> - when the facts were last published, the block count used and where it came from, and each language's progress.</li>
 </ul>
@@ -727,7 +739,7 @@ def suggest_url(key, number, text):
     return f"{REPO_URL}/issues/new?{q}"
 
 
-def proofread_page(lang, langs, en_facts, facts, count, fact_tags, stats):
+def proofread_page(lang, langs, en_facts, loc, count, fact_tags, stats, status, all_facts):
     links = " ".join(f'<a href="../{l}/">{html.escape(LANGUAGE_NAMES[l])}</a>' for l in langs)
     numbers = {key: n for n, key in enumerate(en_facts, start=1)}
 
@@ -737,10 +749,16 @@ def proofread_page(lang, langs, en_facts, facts, count, fact_tags, stats):
         clicks = f' · <a href="../../stats/">{s["clicks"]:,} click{"" if s["clicks"] == 1 else "s"}</a>' if s else ""
         return f'<p class="meta">ID <code>{key}</code>{tags}{clicks}</p>'
 
-    def card(key, fact, missing=False, english=False):
+    def card(key, fact, missing=False, english=False, outdated=None):
         if missing:
             return (f'<div class="fact"><h3>{html.escape(fill(fact["title"], count))}</h3><p class="missing">Not '
-                    f'translated yet - shown in English. <a href="{WEBLATE_URL}">Translate it on Weblate</a></p></div>')
+                    f'translated yet, so it isn\'t shown in {html.escape(LANGUAGE_NAMES[lang])}. '
+                    f'<a href="{WEBLATE_URL}">Translate it on Weblate</a></p></div>')
+        if outdated is not None:
+            return (f'<div class="fact"><h3>{html.escape(fill(fact["title"], count))}</h3>'
+                    f'<p class="muted">{html.escape(fill(outdated, count))}</p><p class="missing">The English has '
+                    f'changed since this was translated, so it isn\'t shown until the translation is updated. '
+                    f'<a href="{WEBLATE_URL}">Update it on Weblate</a></p></div>')
         text = fill(fact["content"], count) + fill(fact.get("link_social", ""), count)
         action = (f'<a href="{html.escape(suggest_url(key, numbers[key], text))}">Suggest a change</a>' if english else
                   f'<a href="{WEBLATE_URL}">Improve this translation</a>')
@@ -748,12 +766,19 @@ def proofread_page(lang, langs, en_facts, facts, count, fact_tags, stats):
                 f'<p>{html.escape(text)}</p>{details(key) if english else ""}<p class="meta">{action}</p></div>')
 
     rows = []
-    for key, fact in facts.items():
+    chain = fallbacks(lang, all_facts)
+    for key, en_fact in en_facts.items():
         if lang == "en":
-            rows.append(f'<div class="row">{card(key, fact, english=True)}</div>')
+            rows.append(f'<div class="row">{card(key, en_fact, english=True)}</div>')
+            continue
+        if status.get(key) == "translated":
+            right = card(key, loc[key])
+        elif status.get(key) == "outdated":
+            old = next(all_facts[l][key]["content"] for l in chain if all_facts[l].get(key, {}).get("content"))
+            right = card(key, en_fact, outdated=old)
         else:
-            rows.append(f'<div class="row two">{card(key, en_facts[key], english=True)}'
-                        f'{card(key, fact, not fact["translated"])}</div>')
+            right = card(key, en_fact, missing=True)
+        rows.append(f'<div class="row two">{card(key, en_fact, english=True)}{right}</div>')
     intro = ("Read through the English DigiFacts below." if lang == "en" else
              f"The English DigiFacts on the left, and the {html.escape(LANGUAGE_NAMES[lang])} translation on the right.")
     body = f"""<h1>DigiFacts proofreading: {html.escape(LANGUAGE_NAMES[lang])}</h1>
@@ -777,12 +802,17 @@ def main():
     prev = previous_info()
     count, source, count_time, readings = block_count(prev)
 
-    files, langs_info, localised = {}, {}, {}
+    files, langs_info, localised, statuses = {}, {}, {}, {}
     day = int(time.time() // 86400)
+    record = translations.update(translations.load_record(), facts)   # Which translations are current
     for lang in langs:
-        loc, translated = localise(facts, titles, lang)
-        localised[lang] = loc
-        langs_info[lang] = {"name": LANGUAGE_NAMES[lang], "translated": translated}
+        loc, status = localise(facts, titles, lang, record)
+        localised[lang], statuses[lang] = loc, status
+        if not loc:   # No current translations yet: the language isn't published (apps use English instead)
+            warn(f"{lang}: no current translations yet - not published")
+            continue
+        langs_info[lang] = {"name": LANGUAGE_NAMES[lang], "translated": len(loc),
+                            "out_of_date": sum(1 for v in status.values() if v == "outdated")}
         for fmt, link_field in OUTPUT_FORMATS.items():
             data = {key: {"title": fill(f["title"], count),
                           "content": fill(f["content"] + (short_link(key, f, link_field) if link_field else ""), count),
@@ -797,7 +827,8 @@ def main():
     # its old key (digifact78), so it's left out for them here.
     files["index.html"] = to_json({k: v for k, v in json.loads(files["en/social.json"]).items()
                                    if "diginode-tools" not in v["tags"]})
-    files["languages.json"] = json.dumps(langs) + "\n"
+    published = [l for l in langs if l in langs_info]
+    files["languages.json"] = json.dumps(published) + "\n"
     with open(os.path.join(ROOT, "embed", "digifacts.js"), encoding="utf-8") as f:
         files["embed/v1/digifacts.js"] = f.read()   # The embed for any website (v1: keep it compatible)
 
@@ -828,9 +859,10 @@ def main():
         "content_hash": digest,
     }
     files["info.json"] = to_json(info)
-    files["help/index.html"] = help_page(langs, info)
-    for lang in langs:
-        files[f"proofread/{lang}/index.html"] = proofread_page(lang, langs, localised["en"], localised[lang], count, fact_tags, stats)
+    files["help/index.html"] = help_page(published, info)
+    for lang in langs:   # Every language, published or not - translators need to see what's missing
+        files[f"proofread/{lang}/index.html"] = proofread_page(lang, langs, localised["en"], localised[lang], count,
+                                                               fact_tags, stats, statuses[lang], facts)
     files["proofread/index.html"] = '<!doctype html><meta charset="utf-8"><meta http-equiv="refresh" content="0; url=en/"><a href="en/">Proofread the DigiFacts</a>\n'
     files[".nojekyll"] = ""
     if stats:
@@ -855,7 +887,8 @@ def main():
         os.makedirs(os.path.join(out_dir, os.path.dirname(card)), exist_ok=True)
         shutil.copyfile(os.path.join(ROOT, card), os.path.join(out_dir, card))
 
-    print(f"Built {len(files)} files: {len(facts['en'])} facts in {len(langs)} languages, "
+    print(f"Built {len(files)} files: {len(facts['en'])} facts in {len(published)} languages "
+          f"({', '.join(l + ' ' + str(langs_info[l]['translated']) for l in published if l != 'en')}), "
           f"block count {count:,} ({source}){'' if changed else ' - nothing changed'}")
     if os.environ.get("GITHUB_OUTPUT"):
         with open(os.environ["GITHUB_OUTPUT"], "a") as f:

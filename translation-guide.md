@@ -25,7 +25,7 @@ Each language has its own file in [`facts/`](facts/), named with its two-letter 
 - Keep live values such as `$blocks_tot_mil` exactly as they are - they're replaced with live data (e.g. 24.3). Move them to wherever they belong in your sentence.
 - `link_html` may only contain the one link, written exactly as above. Nothing else may contain `<` or `>`.
 
-If a fact is missing from a translation, or its content is empty, the English version is shown instead - so it's fine to translate a few facts at a time.
+Only translated facts are shown in your language - a fact that isn't translated yet is simply left out (it's never shown in English instead), so it's fine to translate a few facts at a time. When the English wording of a fact changes, its translations are left out until they're updated: Weblate marks them **Needs editing**. Update the translation (even a small change counts) and it's shown again.
 
 ## Improving a translation
 
