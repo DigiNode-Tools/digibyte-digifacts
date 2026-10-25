@@ -670,7 +670,9 @@ def help_page(langs, info):
         f'<tr><td>{html.escape(LANGUAGE_NAMES[l])}</td><td><code>{l}</code></td>'
         f'<td><a href="../{l}/social.json">social</a> · <a href="../{l}/html.json">html</a> · '
         f'<a href="../{l}/markdown.json">markdown</a> · <a href="../{l}/plain.json">plain</a></td>'
-        f'<td>{info["languages"][l]["translated"]} of {info["facts"]}</td>'
+        f'<td>{info["languages"][l]["translated"]} of {info["facts"]}'
+        + (f' · <a href="../proofread/{l}/">{info["languages"][l]["out_of_date"]} out of date</a>'
+           if info["languages"][l].get("out_of_date") else "") + '</td>'
         f'<td><a href="../proofread/{l}/">proofread</a></td></tr>' for l in langs)
     body = f"""<h1>DigiByte DigiFacts</h1>
 <p>Bite-size facts about DigiByte, for apps, websites and social media, in {len(langs)} languages. Free to use: the facts are MIT licensed.</p>
