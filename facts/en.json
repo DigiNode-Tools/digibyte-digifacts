@@ -1157,28 +1157,28 @@
     "link_html": " Learn more <a target=\"_blank\" href=\"https://digifacts.diginode.tools/\">here</a>.",
     "link_md": " Learn more [here](https://digifacts.diginode.tools/)."
   },
-  "new": {
+  "digifact-xbfj": {
     "content": "HoldFast Wallet is an independent, open-source DigiByte wallet for Android, made by Around The Block. It supports DigiDollar, DigiAssets, Digi-ID and Taproot, and syncs using compact block filters, so it never has to tell a server which addresses are yours.",
     "url": "https://digiscope.me/wallet",
     "link_social": " Learn more: https://digiscope.me/wallet",
     "link_html": " Learn more <a target=\"_blank\" href=\"https://digiscope.me/wallet\">here</a>.",
     "link_md": " Learn more [here](https://digiscope.me/wallet)."
   },
-  "new-2": {
+  "digifact-ksmx": {
     "content": "A light wallet can find its own transactions without revealing its addresses, using compact block filters (BIP 157/158). It downloads a small summary of each block and checks it on your device, and only downloads a full block if one of your payments might be in it.",
     "url": "https://github.com/bitcoin/bips/blob/master/bip-0158.mediawiki",
     "link_social": " Learn more: https://github.com/bitcoin/bips/blob/master/bip-0158.mediawiki",
     "link_html": " Learn more <a target=\"_blank\" href=\"https://github.com/bitcoin/bips/blob/master/bip-0158.mediawiki\">here</a>.",
     "link_md": " Learn more [here](https://github.com/bitcoin/bips/blob/master/bip-0158.mediawiki)."
   },
-  "new-3": {
+  "digifact-ptr2": {
     "content": "DigiScope is a free DigiByte toolkit with a block explorer, a DigiAssets explorer, DigiDollar statistics and on-chain learning quests.",
     "url": "https://digiscope.me/",
     "link_social": " Find it here: https://digiscope.me/",
     "link_html": " Find it <a target=\"_blank\" href=\"https://digiscope.me/\">here</a>.",
     "link_md": " Find it [here](https://digiscope.me/)."
   },
-  "new-4": {
+  "digifact-rvpw": {
     "content": "DigiDollar Stats shows live statistics for DigiDollar, including how many DigiDollars exist, how much DGB is locked as collateral, the collateral ratio and the price from DigiDollar's oracles. It's an independent community website.",
     "url": "https://digidollarstats.com/",
     "link_social": " View the stats: https://digidollarstats.com/",
