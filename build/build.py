@@ -724,6 +724,8 @@ def help_page(langs, info):
         f'<td><a href="../proofread/{l}/">proofread</a></td></tr>' for l in langs)
     body = f"""<h1>DigiByte DigiFacts</h1>
 <p>Bite-size facts about DigiByte, for apps, websites and social media, in {len(langs)} languages. Free to use: the facts are MIT licensed.</p>
+<div data-digifacts data-lang="en"></div>
+<script src="../embed/v1/digifacts.js" async></script>
 
 <h2>Get the DigiFacts</h2>
 <p>Each language is a JSON file in four formats. The address is <code>https://digifacts.diginode.tools/&lt;language&gt;/&lt;format&gt;.json</code>, for example <a href="../en/social.json"><code>/en/social.json</code></a>.</p>
@@ -758,9 +760,7 @@ def help_page(langs, info):
 <p>Add this where you want a DigiFact to appear. It shows a random DigiFact, which changes every minute, and uses your site's font and colours:</p>
 <pre><code>&lt;div data-digifacts data-lang="en"&gt;&lt;/div&gt;
 &lt;script src="https://digifacts.diginode.tools/embed/v1/digifacts.js" async&gt;&lt;/script&gt;</code></pre>
-<p>Options (attributes on the div): <code>data-lang</code> (a language code, or <code>auto</code> for the visitor's language), <code>data-box="no"</code> (text only), <code>data-interval</code> (seconds between DigiFacts, or <code>0</code> for just one), <code>data-credit="no"</code> (hide the small "About DigiByte DigiFacts" link), <code>data-accent</code> (a colour, e.g. <code>#0066cc</code>), and <code>data-exclude-tags</code> and <code>data-exclude</code> to hide DigiFacts (see <a href="#hiding">below</a>). Here it is:</p>
-<div data-digifacts data-lang="en"></div>
-<script src="../embed/v1/digifacts.js" async></script>
+<p>Options (attributes on the div): <code>data-lang</code> (a language code, or <code>auto</code> for the visitor's language), <code>data-box="no"</code> (text only), <code>data-interval</code> (seconds between DigiFacts, or <code>0</code> for just one), <code>data-credit="no"</code> (hide the small "About DigiByte DigiFacts" link), <code>data-accent</code> (a colour, e.g. <code>#0066cc</code>), and <code>data-exclude-tags</code> and <code>data-exclude</code> to hide DigiFacts (see <a href="#hiding">below</a>). The DigiFact at the top of this page uses it.</p>
 <p>On WordPress, you can use the <a href="https://github.com/DigiNode-Tools/digibyte-digifacts/tree/main/wordpress">DigiFacts plugin</a> instead.</p>
 
 <h2 id="hiding">Hiding DigiFacts</h2>
