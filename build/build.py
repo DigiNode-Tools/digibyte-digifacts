@@ -137,6 +137,37 @@ VARIABLES = {
 }
 VARIABLE_RE = re.compile(r"\$[a-z_]+")
 
+# Live values about the latest DigiByte Core release: the newest verified release (not a pre-release) from
+# digibyte-hashes - the same list DigiNode Tools installs from, so only releases whose downloads were checked.
+RELEASES_URL = "https://raw.githubusercontent.com/DigiNode-Tools/digibyte-hashes/main/releases0.json"
+RELEASE_VARIABLES = ("$dgb_version", "$dgb_release_date")   # e.g. 9.26.7, and 6 October 2026 (in the language)
+RELEASE = None   # {"version": "9.26.7", "date": "2026-10-06"}, set by main()
+MONTHS = {
+    "en": "January February March April May June July August September October November December",
+    "de": "Januar Februar März April Mai Juni Juli August September Oktober November Dezember",
+    "es": "enero febrero marzo abril mayo junio julio agosto septiembre octubre noviembre diciembre",
+    "fr": "janvier février mars avril mai juin juillet août septembre octobre novembre décembre",
+    "it": "gennaio febbraio marzo aprile maggio giugno luglio agosto settembre ottobre novembre dicembre",
+    "nl": "januari februari maart april mei juni juli augustus september oktober november december",
+    "pt": "janeiro fevereiro março abril maio junho julho agosto setembro outubro novembro dezembro",
+    "ru": "января февраля марта апреля мая июня июля августа сентября октября ноября декабря",
+    "hi": "जनवरी फ़रवरी मार्च अप्रैल मई जून जुलाई अगस्त सितंबर अक्टूबर नवंबर दिसंबर",
+}
+DATE_FORMATS = {   # How each language writes a date ({d} day, {m} month name, {n} month number, {y} year)
+    "en": "{d} {m} {y}", "de": "{d}. {m} {y}", "es": "{d} de {m} de {y}", "fr": "{d} {m} {y}", "it": "{d} {m} {y}",
+    "nl": "{d} {m} {y}", "pt": "{d} de {m} de {y}", "ru": "{d} {m} {y}", "hi": "{d} {m} {y}",
+    "ja": "{y}年{n}月{d}日", "zh": "{y}年{n}月{d}日", "ko": "{y}년 {n}월 {d}일",
+}
+
+
+def local_date(iso, lang):
+    """A date (YYYY-MM-DD) written the way the language writes it, e.g. 6 October 2026 / 6. Oktober 2026."""
+    y, n, d = (int(x) for x in iso.split("-"))
+    base = lang.split("-")[0]
+    months = MONTHS.get(base, MONTHS["en"]).split()
+    fmt = DATE_FORMATS.get(base, DATE_FORMATS["en"])
+    return fmt.format(d=d, m=months[n - 1], n=n, y=y)
+
 
 def fetch(url, timeout=15):
     req = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
@@ -216,8 +247,9 @@ def load_facts():
                 if field != "link_html" and re.search(r"[<>]", value):
                     fail(f"{where} {field}: '<' and '>' aren't allowed (only link_html may contain a link)")
                 for var in VARIABLE_RE.findall(value):
-                    if var not in VARIABLES:
-                        fail(f"{where} {field}: unknown live value '{var}' (available: {', '.join(VARIABLES)})")
+                    if var not in VARIABLES and var not in RELEASE_VARIABLES:
+                        fail(f"{where} {field}: unknown live value '{var}' "
+                             f"(available: {', '.join(list(VARIABLES) + list(RELEASE_VARIABLES))})")
             if fact.get("link_html") and not LINK_HTML_RE.fullmatch(fact["link_html"]):
                 fail(f'{where} link_html should contain exactly one link: <a target="_blank" href="https://...">text</a>')
             if fact.get("url") and not re.fullmatch(r"https://\S+", fact["url"]):
@@ -526,12 +558,12 @@ def today_and_feed(lang, loc, count, day, fact_tags):
             "date": time.strftime("%Y-%m-%d", time.gmtime(d * 86400)),
             "number": f["number"],
             "key": key,
-            "title": fill(f["title"], count),
+            "title": fill(f["title"], count, lang),
             "url": f.get("url", ""),
-            "text": fill(f["content"] + short_link(key, f, "link_social"), count),
-            "html": fill(f["content"] + short_link(key, f, "link_html"), count),
-            "markdown": fill(f["content"] + short_link(key, f, "link_md"), count),
-            "plain": fill(f["content"], count),
+            "text": fill(f["content"] + short_link(key, f, "link_social"), count, lang),
+            "html": fill(f["content"] + short_link(key, f, "link_html"), count, lang),
+            "markdown": fill(f["content"] + short_link(key, f, "link_md"), count, lang),
+            "plain": fill(f["content"], count, lang),
             "short_url": short_url(key, f),
             "short_link": SHORT_TEXT_BASE + key[len("digifact-"):] if f.get("url") else "",
             "id": key,
@@ -615,10 +647,26 @@ def redirect_page(url, key, title, qr, number=0, text=""):
             f'<body><p>Going to <a href="{u}">{u}</a></p></body></html>\n')
 
 
-def fill(text, count):
+def fill(text, count, lang="en"):
     for var, value in VARIABLES.items():
         text = text.replace(var, value(count))
+    if RELEASE:
+        text = text.replace("$dgb_version", RELEASE["version"]).replace("$dgb_release_date", local_date(RELEASE["date"], lang))
     return text
+
+
+def latest_release(prev):
+    """The newest verified DigiByte Core release: {"version", "date"} - or the published one if it can't be read."""
+    try:
+        data = json.loads(fetch(RELEASES_URL))
+        version = data["latest_release"]
+        rel = next(r for r in data["releases"] if r["version"] == version)
+        if not re.fullmatch(r"\d+\.\d+\.\d+", version) or rel.get("prerelease"):
+            raise ValueError(f"unexpected latest release {version!r}")
+        return {"version": version, "date": rel["published_at"][:10]}
+    except Exception as e:
+        warn(f"Couldn't read the latest DigiByte Core release ({e}) - using the published one")
+        return prev.get("dgb_release")
 
 
 def write(path, content):
@@ -758,10 +806,10 @@ def proofread_page(lang, langs, en_facts, loc, count, fact_tags, stats, status, 
                     f'<a href="{WEBLATE_URL}">Translate it on Weblate</a></p></div>')
         if outdated is not None:
             return (f'<div class="fact"><h3>{html.escape(fill(fact["title"], count))}</h3>'
-                    f'<p class="muted">{html.escape(fill(outdated, count))}</p><p class="missing">The English has '
+                    f'<p class="muted">{html.escape(fill(outdated, count, lang))}</p><p class="missing">The English has '
                     f'changed since this was translated, so it isn\'t shown until the translation is updated. '
                     f'<a href="{WEBLATE_URL}">Update it on Weblate</a></p></div>')
-        text = fill(fact["content"], count) + fill(fact.get("link_social", ""), count)
+        text = fill(fact["content"], count, lang if not english else "en") + fill(fact.get("link_social", ""), count)
         action = (f'<a href="{html.escape(suggest_url(key, numbers[key], text))}">Suggest a change</a>' if english else
                   f'<a href="{WEBLATE_URL}">Improve this translation</a>')
         return (f'<div class="fact"><h3>{html.escape(fill(fact["title"], count))}</h3>'
@@ -803,12 +851,16 @@ def main():
     tag_descriptions, fact_tags = load_tags(facts["en"])
     prev = previous_info()
     count, source, count_time, readings = block_count(prev)
+    global RELEASE
+    RELEASE = latest_release(prev)
 
     files, langs_info, localised, statuses = {}, {}, {}, {}
     day = int(time.time() // 86400)
     record = translations.update(translations.load_record(), facts)   # Which translations are current
     for lang in langs:
         loc, status = localise(facts, titles, lang, record)
+        if not RELEASE:   # No release information at all: leave out DigiFacts that would show "$dgb_version"
+            loc = {k: v for k, v in loc.items() if not any(var in v["content"] for var in RELEASE_VARIABLES)}
         localised[lang], statuses[lang] = loc, status
         if not loc:   # No current translations yet: the language isn't published (apps use English instead)
             warn(f"{lang}: no current translations yet - not published")
@@ -816,8 +868,8 @@ def main():
         langs_info[lang] = {"name": LANGUAGE_NAMES[lang], "translated": len(loc),
                             "out_of_date": sum(1 for v in status.values() if v == "outdated")}
         for fmt, link_field in OUTPUT_FORMATS.items():
-            data = {key: {"title": fill(f["title"], count),
-                          "content": fill(f["content"] + (short_link(key, f, link_field) if link_field else ""), count),
+            data = {key: {"title": fill(f["title"], count, lang),
+                          "content": fill(f["content"] + (short_link(key, f, link_field) if link_field else ""), count, lang),
                           "url": f.get("url", ""),
                           "short_url": short_url(key, f),
                           "short_link": SHORT_TEXT_BASE + key[len("digifact-"):] if f.get("url") else "",
@@ -847,6 +899,7 @@ def main():
         "block_count_source": source,
         "block_count_time": count_time,
         "explorers": readings,
+        "dgb_release": RELEASE,
         "languages": langs_info,
         "formats": list(OUTPUT_FORMATS),
         "tags": {t: {"description": d, "facts": sorted(k for k, v in fact_tags.items() if t in v)}

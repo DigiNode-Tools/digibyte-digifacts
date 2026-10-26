@@ -123,13 +123,15 @@ You can also edit the files directly. Each language has its own file in `facts/`
 
 ### Live data
 
-These can be used in a fact, and are replaced with live values when the website is published:
+These can be used in a fact, and are replaced with live values when the website is published (it's checked every hour):
 
 | Value | Example | Shows |
 |---|---|---|
 | `$blocks_tot_mil` | 24.3 | The number of DigiByte blocks in millions (rounded down to 0.1 million) |
 | `$blocks_tot_cs` | 24,372,537 | The number of DigiByte blocks, with commas |
 | `$blocks_tot` | 24372537 | The number of DigiByte blocks |
+| `$dgb_version` | 9.26.7 | The latest version of DigiByte Core (the newest verified release, not a pre-release) |
+| `$dgb_release_date` | 6 October 2026 | When that version was released, written the way each language writes dates (e.g. 6. Oktober 2026, 2026年10月6日) |
 
 Write the value in the fact where the number should go. For example:
 
