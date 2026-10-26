@@ -17,6 +17,16 @@
     "digifact-f5fj": ["digifacts"],
     "digifact-vckr": ["digifacts"],
     "digifact-ppss": ["digifacts"],
-    "digifact-hcj4": ["digifacts"]
+    "digifact-hcj4": ["digifacts"],
+    "new-1": ["diginode-tools"],
+    "new-2": ["diginode-tools"],
+    "new-3": ["diginode-tools"],
+    "new-4": ["diginode-tools"],
+    "new-5": ["diginode-tools"],
+    "new-6": ["diginode-tools"],
+    "new-7": ["diginode-tools"],
+    "new-8": ["diginode-tools"],
+    "new-9": ["diginode-tools"],
+    "new-11": ["digifacts"]
   }
 }

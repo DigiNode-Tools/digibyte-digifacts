@@ -1240,5 +1240,82 @@
     "link_social": " Learn more: https://github.com/DigiByte-Core/digibyte/releases/tag/v8.26.0",
     "link_html": " Learn more <a target=\"_blank\" href=\"https://github.com/DigiByte-Core/digibyte/releases/tag/v8.26.0\">here</a>.",
     "link_md": " Learn more [here](https://github.com/DigiByte-Core/digibyte/releases/tag/v8.26.0)."
+  },
+  "new-1": {
+    "content": "DigiNode Tools can run a DigiByte mainnet node and a testnet node together on the same device, called a Dual Node. The testnet node helps the developers who test new DigiByte software. It needs at least 8GB of memory.",
+    "url": "https://diginode.tools/features/#your-node",
+    "link_social": " Learn more: https://diginode.tools/features/#your-node",
+    "link_html": " Learn more <a target=\"_blank\" href=\"https://diginode.tools/features/#your-node\">here</a>.",
+    "link_md": " Learn more [here](https://diginode.tools/features/#your-node)."
+  },
+  "new-2": {
+    "content": "With DigiNode Tools, you can upgrade or downgrade your node to any verified release of DigiByte Core, back to v7.17.2. You can also install pre-releases to help test new versions.",
+    "url": "https://diginode.tools/features/#your-node",
+    "link_social": " Learn more: https://diginode.tools/features/#your-node",
+    "link_html": " Learn more <a target=\"_blank\" href=\"https://diginode.tools/features/#your-node\">here</a>.",
+    "link_md": " Learn more [here](https://diginode.tools/features/#your-node)."
+  },
+  "new-3": {
+    "content": "DigiNode Tools can run your DigiByte node over the Tor network with one menu option, for mainnet, testnet or both. DigiNode Dashboard then shows your node's onion address.",
+    "url": "https://diginode.tools/features/#your-node",
+    "link_social": " Learn more: https://diginode.tools/features/#your-node",
+    "link_html": " Learn more <a target=\"_blank\" href=\"https://diginode.tools/features/#your-node\">here</a>.",
+    "link_md": " Learn more [here](https://diginode.tools/features/#your-node)."
+  },
+  "new-4": {
+    "content": "The DigiByte Port Tester checks whether other DigiByte nodes can reach yours, at an IPv4, IPv6 or onion address. It's free to use on the DigiNode Tools website, and it's built into DigiNode Dashboard.",
+    "url": "https://diginode.tools/digibyte-port-tester/",
+    "link_social": " Learn more: https://diginode.tools/digibyte-port-tester/",
+    "link_html": " Learn more <a target=\"_blank\" href=\"https://diginode.tools/digibyte-port-tester/\">here</a>.",
+    "link_md": " Learn more [here](https://diginode.tools/digibyte-port-tester/)."
+  },
+  "new-5": {
+    "content": "Every DigiByte Core download that DigiNode Tools installs is checked against a SHA256 hash. A hash is only published once the file matches GitHub's own records and the release's checksums.",
+    "url": "https://github.com/DigiNode-Tools/digibyte-hashes",
+    "link_social": " Learn more: https://github.com/DigiNode-Tools/digibyte-hashes",
+    "link_html": " Learn more <a target=\"_blank\" href=\"https://github.com/DigiNode-Tools/digibyte-hashes\">here</a>.",
+    "link_md": " Learn more [here](https://github.com/DigiNode-Tools/digibyte-hashes)."
+  },
+  "new-6": {
+    "content": "When a new DigiByte Core release comes out, DigiNode Tools doesn't offer it to every node at once. It reaches DigiNodes gradually, over 3 to 15 days, so any problems can be found before everyone upgrades.",
+    "url": "https://diginode.tools/features/#safe-and-up-to-date",
+    "link_social": " Learn more: https://diginode.tools/features/#safe-and-up-to-date",
+    "link_html": " Learn more <a target=\"_blank\" href=\"https://diginode.tools/features/#safe-and-up-to-date\">here</a>.",
+    "link_md": " Learn more [here](https://diginode.tools/features/#safe-and-up-to-date)."
+  },
+  "new-7": {
+    "content": "DigiNode Tools can install operating system updates for you once a day in the background. If an update needs a restart, it can restart the node overnight, and never while it's busy.",
+    "url": "https://diginode.tools/features/#safe-and-up-to-date",
+    "link_social": " Learn more: https://diginode.tools/features/#safe-and-up-to-date",
+    "link_html": " Learn more <a target=\"_blank\" href=\"https://diginode.tools/features/#safe-and-up-to-date\">here</a>.",
+    "link_md": " Learn more [here](https://diginode.tools/features/#safe-and-up-to-date)."
+  },
+  "new-8": {
+    "content": "DigiNode Dashboard gives a live view of a DigiByte node in the terminal: sync progress, connections, mempool and disk space, plus the device's CPU, memory and temperature. Press N to hide your IP and onion addresses before sharing a screenshot.",
+    "url": "https://diginode.tools/features/#monitor",
+    "link_social": " Learn more: https://diginode.tools/features/#monitor",
+    "link_html": " Learn more <a target=\"_blank\" href=\"https://diginode.tools/features/#monitor\">here</a>.",
+    "link_md": " Learn more [here](https://diginode.tools/features/#monitor)."
+  },
+  "new-9": {
+    "content": "DigiNode Tools sets up a DigiByte node by asking a few simple questions in a menu, so almost no Linux experience is needed. The device doesn't need a screen or keyboard; you manage it from your main computer.",
+    "url": "https://diginode.tools/features/#easy-setup",
+    "link_social": " Learn more: https://diginode.tools/features/#easy-setup",
+    "link_html": " Learn more <a target=\"_blank\" href=\"https://diginode.tools/features/#easy-setup\">here</a>.",
+    "link_md": " Learn more [here](https://diginode.tools/features/#easy-setup)."
+  },
+  "new-10": {
+    "content": "Running a DigiByte node isn't the same as mining. Miners create new blocks; nodes check them and pass them on. A node earns no rewards, and you don't need to own any DGB to run one.",
+    "url": "https://diginode.tools/why-run-a-diginode/",
+    "link_social": " Learn more: https://diginode.tools/why-run-a-diginode/",
+    "link_html": " Learn more <a target=\"_blank\" href=\"https://diginode.tools/why-run-a-diginode/\">here</a>.",
+    "link_md": " Learn more [here](https://diginode.tools/why-run-a-diginode/)."
+  },
+  "new-11": {
+    "content": "Adding DigiFacts to a website takes just two lines of HTML. It uses your site's own font and colours, and can show DigiFacts in your visitor's language. For WordPress, there's a free plugin.",
+    "url": "https://digifacts.diginode.tools/#website",
+    "link_social": " Learn more: https://digifacts.diginode.tools/#website",
+    "link_html": " Learn more <a target=\"_blank\" href=\"https://digifacts.diginode.tools/#website\">here</a>.",
+    "link_md": " Learn more [here](https://digifacts.diginode.tools/#website)."
   }
 }

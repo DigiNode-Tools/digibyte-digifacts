@@ -754,7 +754,7 @@ def help_page(langs, info):
 <li>Browsers can fetch the files directly (CORS is allowed), so they work in any website or app.</li>
 </ul>
 
-<h2>Add DigiFacts to your website</h2>
+<h2 id="website">Add DigiFacts to your website</h2>
 <p>Add this where you want a DigiFact to appear. It shows a random DigiFact, which changes every minute, and uses your site's font and colours:</p>
 <pre><code>&lt;div data-digifacts data-lang="en"&gt;&lt;/div&gt;
 &lt;script src="https://digifacts.diginode.tools/embed/v1/digifacts.js" async&gt;&lt;/script&gt;</code></pre>
