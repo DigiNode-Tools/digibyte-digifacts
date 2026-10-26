@@ -1192,49 +1192,49 @@
     "link_html": " Get it <a target=\"_blank\" href=\"https://github.com/DigiByte-Core/digibyte/releases/latest\">here</a>.",
     "link_md": " Get it [here](https://github.com/DigiByte-Core/digibyte/releases/latest)."
   },
-  "new-1": {
+  "digifact-xzqd": {
     "content": "DigiByte Core can encrypt the connections between nodes, using the v2 transport protocol (BIP324). This stops anyone watching the network from reading what nodes send each other. It is off by default - add v2transport=1 to digibyte.conf to turn it on.",
     "url": "https://github.com/DigiByte-Core/digibyte/releases/tag/v8.26.1",
     "link_social": " Learn more: https://github.com/DigiByte-Core/digibyte/releases/tag/v8.26.1",
     "link_html": " Learn more <a target=\"_blank\" href=\"https://github.com/DigiByte-Core/digibyte/releases/tag/v8.26.1\">here</a>.",
     "link_md": " Learn more [here](https://github.com/DigiByte-Core/digibyte/releases/tag/v8.26.1)."
   },
-  "new-2": {
+  "digifact-8gz4": {
     "content": "As well as Tor, DigiByte Core can connect to other nodes over I2P, the Invisible Internet Project. This hides your node's IP address from the nodes it talks to. It needs an I2P router, such as i2pd, running alongside it.",
     "url": "https://github.com/DigiByte-Core/digibyte/blob/develop/doc/i2p.md",
     "link_social": " Learn more: https://github.com/DigiByte-Core/digibyte/blob/develop/doc/i2p.md",
     "link_html": " Learn more <a target=\"_blank\" href=\"https://github.com/DigiByte-Core/digibyte/blob/develop/doc/i2p.md\">here</a>.",
     "link_md": " Learn more [here](https://github.com/DigiByte-Core/digibyte/blob/develop/doc/i2p.md)."
   },
-  "new-3": {
+  "digifact-nqct": {
     "content": "DigiByte Core can connect to other nodes over CJDNS, an encrypted mesh network where each address comes from a public key. Nodes on CJDNS can talk to each other directly without revealing their normal IP address.",
     "url": "https://github.com/DigiByte-Core/digibyte/blob/develop/doc/cjdns.md",
     "link_social": " Learn more: https://github.com/DigiByte-Core/digibyte/blob/develop/doc/cjdns.md",
     "link_html": " Learn more <a target=\"_blank\" href=\"https://github.com/DigiByte-Core/digibyte/blob/develop/doc/cjdns.md\">here</a>.",
     "link_md": " Learn more [here](https://github.com/DigiByte-Core/digibyte/blob/develop/doc/cjdns.md)."
   },
-  "new-4": {
+  "digifact-brw9": {
     "content": "With partially signed transactions (PSBTs), a DigiByte transaction can be created on one computer and signed on another, even one that never goes online. They also let several people each add their signature to a multisig transaction.",
     "url": "https://github.com/DigiByte-Core/digibyte/blob/develop/doc/psbt.md",
     "link_social": " Learn more: https://github.com/DigiByte-Core/digibyte/blob/develop/doc/psbt.md",
     "link_html": " Learn more <a target=\"_blank\" href=\"https://github.com/DigiByte-Core/digibyte/blob/develop/doc/psbt.md\">here</a>.",
     "link_md": " Learn more [here](https://github.com/DigiByte-Core/digibyte/blob/develop/doc/psbt.md)."
   },
-  "new-5": {
+  "digifact-gc4f": {
     "content": "DigiByte Core wallets are descriptor wallets. Instead of keeping a pile of separate keys, the wallet stores short descriptions of which addresses it owns and how they can be spent. This makes wallets easier to back up, restore and use with other software.",
     "url": "https://github.com/DigiByte-Core/digibyte/blob/develop/doc/descriptors.md",
     "link_social": " Learn more: https://github.com/DigiByte-Core/digibyte/blob/develop/doc/descriptors.md",
     "link_html": " Learn more <a target=\"_blank\" href=\"https://github.com/DigiByte-Core/digibyte/blob/develop/doc/descriptors.md\">here</a>.",
     "link_md": " Learn more [here](https://github.com/DigiByte-Core/digibyte/blob/develop/doc/descriptors.md)."
   },
-  "new-6": {
+  "digifact-tpkf": {
     "content": "DigiByte Core supports Miniscript, a simpler way to write spending rules such as 'any two of these three keys' or 'this key, or that one after a year'. DigiByte Core v9.26.2 added Miniscript support for Taproot.",
     "url": "https://github.com/DigiByte-Core/digibyte/releases/tag/v9.26.2",
     "link_social": " Learn more: https://github.com/DigiByte-Core/digibyte/releases/tag/v9.26.2",
     "link_html": " Learn more <a target=\"_blank\" href=\"https://github.com/DigiByte-Core/digibyte/releases/tag/v9.26.2\">here</a>.",
     "link_md": " Learn more [here](https://github.com/DigiByte-Core/digibyte/releases/tag/v9.26.2)."
   },
-  "new-7": {
+  "digifact-zjv8": {
     "content": "DigiByte Core v8.26 brought in the improvements from Bitcoin Core 26.2. Its release notes say this took about three months of AI-assisted development by Team DigiSwarm, where the previous upgrade, v8.22, took around four years.",
     "url": "https://github.com/DigiByte-Core/digibyte/releases/tag/v8.26.0",
     "link_social": " Learn more: https://github.com/DigiByte-Core/digibyte/releases/tag/v8.26.0",
