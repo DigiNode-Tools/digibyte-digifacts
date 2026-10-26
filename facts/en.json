@@ -1185,7 +1185,7 @@
     "link_html": " View the stats <a target=\"_blank\" href=\"https://digidollarstats.com/\">here</a>.",
     "link_md": " View the stats [here](https://digidollarstats.com/)."
   },
-  "new": {
+  "digifact-s2vg": {
     "content": "The latest version of DigiByte Core, the official DigiByte wallet and node software, is v$dgb_version, released on $dgb_release_date.",
     "url": "https://github.com/DigiByte-Core/digibyte/releases/latest",
     "link_social": " Get it here: https://github.com/DigiByte-Core/digibyte/releases/latest",
