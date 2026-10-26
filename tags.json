@@ -18,15 +18,15 @@
     "digifact-vckr": ["digifacts"],
     "digifact-ppss": ["digifacts"],
     "digifact-hcj4": ["digifacts"],
-    "new-1": ["diginode-tools"],
-    "new-2": ["diginode-tools"],
-    "new-3": ["diginode-tools"],
-    "new-4": ["diginode-tools"],
-    "new-5": ["diginode-tools"],
-    "new-6": ["diginode-tools"],
-    "new-7": ["diginode-tools"],
-    "new-8": ["diginode-tools"],
-    "new-9": ["diginode-tools"],
-    "new-11": ["digifacts"]
+    "digifact-gzwm": ["diginode-tools"],
+    "digifact-xd3d": ["diginode-tools"],
+    "digifact-m7rb": ["diginode-tools"],
+    "digifact-vp9t": ["diginode-tools"],
+    "digifact-9znh": ["diginode-tools"],
+    "digifact-8n4q": ["diginode-tools"],
+    "digifact-j4xq": ["diginode-tools"],
+    "digifact-fhfr": ["diginode-tools"],
+    "digifact-nnnk": ["diginode-tools"],
+    "digifact-dxb6": ["digifacts"]
   }
 }
