@@ -4,7 +4,8 @@
     "diginode-tools": "About DigiNode Tools",
     "digifacts": "About DigiFacts themselves",
     "tronbyt": "About Tronbyt apps",
-    "dgbat": "About the DigiByte Awareness Team (DGBAT)"
+    "dgbat": "About the DigiByte Awareness Team (DGBAT)",
+    "digistamp": "About DigiStamp (digistamp.co)"
   },
   "facts": {
     "digifact-np2q": ["diginode-tools"],
@@ -27,6 +28,12 @@
     "digifact-j4xq": ["diginode-tools"],
     "digifact-fhfr": ["diginode-tools"],
     "digifact-nnnk": ["diginode-tools"],
-    "digifact-dxb6": ["digifacts"]
+    "digifact-dxb6": ["digifacts"],
+    "new-1": ["digistamp"],
+    "new-2": ["digistamp"],
+    "new-3": ["digistamp"],
+    "new-4": ["digistamp"],
+    "new-5": ["digistamp"],
+    "new-6": ["digistamp"]
   }
 }
