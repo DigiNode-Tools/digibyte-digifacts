@@ -701,6 +701,8 @@ table {{ border-collapse: collapse; width: 100%; }} th, td {{ text-align: left; 
 @media (max-width: 700px) {{ .row.two {{ grid-template-columns: 1fr; }} }}
 .fact {{ background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 12px 14px; overflow-wrap: anywhere; }}
 .fact h3 {{ margin: 0 0 .3em; font-size: 1em; }} .fact p {{ margin: 0; }}
+.fact h3 a.here {{ color: inherit; text-decoration: none; }} .fact h3 a.here:hover, .fact h3 a.here:focus-visible {{ text-decoration: underline; }}
+.row {{ scroll-margin-top: 16px; }} .row:target .fact:first-child {{ border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent); }}
 .missing {{ color: #c0392b; font-weight: 600; }}
 .meta {{ margin-top: .5em !important; font-size: .85em; color: var(--muted); }}
 .tag {{ display: inline-block; padding: 0 .5em; border: 1px solid var(--line); border-radius: 999px; }}
@@ -810,16 +812,19 @@ def proofread_page(lang, langs, en_facts, loc, count, fact_tags, stats, status, 
                     f'changed since this was translated, so it isn\'t shown until the translation is updated. '
                     f'<a href="{WEBLATE_URL}">Update it on Weblate</a></p></div>')
         text = fill(fact["content"], count, lang if not english else "en") + fill(fact.get("link_social", ""), count)
+        title = html.escape(fill(fact["title"], count))
+        if english:   # The title links to this DigiFact on the page (#digifact-xxxx), so it can be shared
+            title = f'<a class="here" href="#{key}" title="Link to this DigiFact">{title}</a>'
         action = (f'<a href="{html.escape(suggest_url(key, numbers[key], text))}">Suggest a change</a>' if english else
                   f'<a href="{WEBLATE_URL}">Improve this translation</a>')
-        return (f'<div class="fact"><h3>{html.escape(fill(fact["title"], count))}</h3>'
+        return (f'<div class="fact"><h3>{title}</h3>'
                 f'<p>{html.escape(text)}</p>{details(key) if english else ""}<p class="meta">{action}</p></div>')
 
     rows = []
     chain = fallbacks(lang, all_facts)
     for key, en_fact in en_facts.items():
         if lang == "en":
-            rows.append(f'<div class="row">{card(key, en_fact, english=True)}</div>')
+            rows.append(f'<div class="row" id="{key}">{card(key, en_fact, english=True)}</div>')
             continue
         if status.get(key) == "translated":
             right = card(key, loc[key])
@@ -828,12 +833,12 @@ def proofread_page(lang, langs, en_facts, loc, count, fact_tags, stats, status, 
             right = card(key, en_fact, outdated=old)
         else:
             right = card(key, en_fact, missing=True)
-        rows.append(f'<div class="row two">{card(key, en_fact, english=True)}{right}</div>')
+        rows.append(f'<div class="row two" id="{key}">{card(key, en_fact, english=True)}{right}</div>')
     intro = ("Read through the English DigiFacts below." if lang == "en" else
              f"The English DigiFacts on the left, and the {html.escape(LANGUAGE_NAMES[lang])} translation on the right.")
     body = f"""<h1>DigiFacts proofreading: {html.escape(LANGUAGE_NAMES[lang])}</h1>
 <p>{intro} Spotted a mistake, or a DigiFact that's out of date? Click <b>Suggest a change</b> under it. Translations are improved on <a href="{WEBLATE_URL}">Weblate</a>. Thank you!</p>
-<p class="muted">Each DigiFact has an <b>ID</b>, like <code>digifact-7ttm</code>, that never changes (its number can, when DigiFacts are removed). Websites can use the IDs and tags to hide particular DigiFacts - see <a href="../../#hiding">hiding DigiFacts</a>.</p>
+<p class="muted">Each DigiFact has an <b>ID</b>, like <code>digifact-7ttm</code>, that never changes (its number can, when DigiFacts are removed). Websites can use the IDs and tags to hide particular DigiFacts - see <a href="../../#hiding">hiding DigiFacts</a>. To link to a DigiFact on this page, click its title, or add its ID to the address, like <code>#digifact-7ttm</code>.</p>
 <p class="langs">{links}</p>
 {"".join(rows)}
 <p class="muted"><a href="../../">About DigiFacts</a></p>"""
