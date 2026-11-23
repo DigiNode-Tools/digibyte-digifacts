@@ -362,42 +362,42 @@
     "link_html": " Find it <a target=\"_blank\" href=\"https://github.com/chopperbriano/DigiAssetWindows\">here</a>.",
     "link_md": " Find it [here](https://github.com/chopperbriano/DigiAssetWindows)."
   },
-  "new-1": {
+  "digifact-d2cq": {
     "content": "DigiStamp is a group of tools built on DigiByte, including a DigiAssets marketplace and a way to prove when a document existed. A single Digi-ID sign-in, scanned with a DigiByte wallet, works across all of them, so there are no usernames or passwords.",
     "url": "https://digistamp.co/",
     "link_social": " Learn more: https://digistamp.co/",
     "link_html": " Learn more <a target=\"_blank\" href=\"https://digistamp.co/\">here</a>.",
     "link_md": " Learn more [here](https://digistamp.co/)."
   },
-  "new-2": {
+  "digifact-8xzr": {
     "content": "DigiStamp Proof can show that a document existed at a certain time without keeping a copy of it. It records the document's fingerprint (a SHA-256 hash), and many fingerprints are combined into one Merkle root, which is written to the DigiByte blockchain in a single transaction. Anyone with the original can later check it against the proof.",
     "url": "https://proof.digistamp.co/",
     "link_social": " Learn more: https://proof.digistamp.co/",
     "link_html": " Learn more <a target=\"_blank\" href=\"https://proof.digistamp.co/\">here</a>.",
     "link_md": " Learn more [here](https://proof.digistamp.co/)."
   },
-  "new-3": {
+  "digifact-9fmr": {
     "content": "DigiStamp Assets is a marketplace for creating and trading DigiAssets, such as art, music and other files, on the DigiByte blockchain. The files are kept available by the DigiStamp storage pool, a network of DigiAsset Core nodes run by community members.",
     "url": "https://assets.digistamp.co/",
     "link_social": " Learn more: https://assets.digistamp.co/",
     "link_html": " Learn more <a target=\"_blank\" href=\"https://assets.digistamp.co/\">here</a>.",
     "link_md": " Learn more [here](https://assets.digistamp.co/)."
   },
-  "new-4": {
+  "digifact-wxmq": {
     "content": "DigiStamp Signal lets you seal a message, such as a prediction or a promise, until a date you choose. To lock it you burn DGB, a public sign that you mean it, and nobody can change it in between, not even you. When it opens, anyone can check it and judge whether you were right.",
     "url": "https://signal.digistamp.co/",
     "link_social": " Learn more: https://signal.digistamp.co/",
     "link_html": " Learn more <a target=\"_blank\" href=\"https://signal.digistamp.co/\">here</a>.",
     "link_md": " Learn more [here](https://signal.digistamp.co/)."
   },
-  "new-5": {
+  "digifact-bxgg": {
     "content": "DigiStamp Tickets puts each event ticket on the DigiByte blockchain, held in the attendee's own wallet, so only they can pass it on. At the door the entry code changes every 30 seconds, so a screenshot is useless, and the ticket is marked as used on the blockchain.",
     "url": "https://tickets.digistamp.co/",
     "link_social": " Learn more: https://tickets.digistamp.co/",
     "link_html": " Learn more <a target=\"_blank\" href=\"https://tickets.digistamp.co/\">here</a>.",
     "link_md": " Learn more [here](https://tickets.digistamp.co/)."
   },
-  "new-6": {
+  "digifact-jtcz": {
     "content": "DigiStamp Contracts lets each party to an agreement sign the exact same version with their own DigiByte wallet. The agreement's fingerprint can then be recorded on the DigiByte blockchain, so anyone can check later that the signatures and the document match.",
     "url": "https://contracts.digistamp.co/",
     "link_social": " Learn more: https://contracts.digistamp.co/",
