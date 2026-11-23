@@ -702,6 +702,7 @@ table {{ border-collapse: collapse; width: 100%; }} th, td {{ text-align: left; 
 .fact {{ background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 12px 14px; overflow-wrap: anywhere; }}
 .fact h3 {{ margin: 0 0 .3em; font-size: 1em; }} .fact p {{ margin: 0; }}
 .fact h3 a.here {{ color: inherit; text-decoration: none; }} .fact h3 a.here:hover, .fact h3 a.here:focus-visible {{ text-decoration: underline; }}
+.fact button.copy {{ font: inherit; color: var(--accent); background: none; border: 0; padding: 0; cursor: pointer; text-decoration: underline; }}
 .row {{ scroll-margin-top: 16px; }} .row:target .fact:first-child {{ border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent); }}
 .missing {{ color: #c0392b; font-weight: 600; }}
 .meta {{ margin-top: .5em !important; font-size: .85em; color: var(--muted); }}
@@ -815,7 +816,8 @@ def proofread_page(lang, langs, en_facts, loc, count, fact_tags, stats, status, 
         title = html.escape(fill(fact["title"], count))
         if english:   # The title links to this DigiFact on the page (#digifact-xxxx), so it can be shared
             title = f'<a class="here" href="#{key}" title="Link to this DigiFact">{title}</a>'
-        action = (f'<a href="{html.escape(suggest_url(key, numbers[key], text))}">Suggest a change</a>' if english else
+        action = (f'<a href="{html.escape(suggest_url(key, numbers[key], text))}">Suggest a change</a>'
+                  f'<span class="copy-wrap" hidden> · <button type="button" class="copy" data-id="{key}">Copy link</button></span>' if english else
                   f'<a href="{WEBLATE_URL}">Improve this translation</a>')
         return (f'<div class="fact"><h3>{title}</h3>'
                 f'<p>{html.escape(text)}</p>{details(key) if english else ""}<p class="meta">{action}</p></div>')
@@ -841,7 +843,19 @@ def proofread_page(lang, langs, en_facts, loc, count, fact_tags, stats, status, 
 <p class="muted">Each DigiFact has an <b>ID</b>, like <code>digifact-7ttm</code>, that never changes (its number can, when DigiFacts are removed). Websites can use the IDs and tags to hide particular DigiFacts - see <a href="../../#hiding">hiding DigiFacts</a>. To link to a DigiFact on this page, click its title, or add its ID to the address, like <code>#digifact-7ttm</code>.</p>
 <p class="langs">{links}</p>
 {"".join(rows)}
-<p class="muted"><a href="../../">About DigiFacts</a></p>"""
+<p class="muted"><a href="../../">About DigiFacts</a></p>
+<script>
+// "Copy link" copies this page's address with the DigiFact's ID (#digifact-xxxx). Hidden without a clipboard.
+if (navigator.clipboard) document.querySelectorAll("button.copy").forEach(b => {{
+  b.parentElement.hidden = false;
+  b.addEventListener("click", () => {{
+    const url = location.origin + location.pathname + "#" + b.dataset.id;
+    navigator.clipboard.writeText(url).then(() => {{
+      b.textContent = "Copied ✓"; setTimeout(() => {{ b.textContent = "Copy link"; }}, 1500);
+    }}, () => {{ location.hash = b.dataset.id; }});
+  }});
+}});
+</script>"""
     meta = preview_tags(f"DigiFacts proofreading: {LANGUAGE_NAMES[lang]}", "Every DigiFact, to read through and "
                         "suggest changes.", CARDS[0], f"{SITE_URL}/proofread/{lang}/")
     return PAGE.format(lang=lang, title=f"DigiFacts proofreading: {LANGUAGE_NAMES[lang]}", body=body, meta=meta)
