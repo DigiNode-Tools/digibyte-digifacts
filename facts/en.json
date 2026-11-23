@@ -355,7 +355,7 @@
     "link_html": " Find it <a target=\"_blank\" href=\"https://github.com/DigiAsset-Core/DigiAsset_Core\">here</a>.",
     "link_md": " Find it [here](https://github.com/DigiAsset-Core/DigiAsset_Core)."
   },
-  "new": {
+  "digifact-tckk": {
     "content": "DigiAsset for Windows, made by DigiByte community member Chopper Brian, is a Windows version of DigiAsset Core. One PowerShell command installs DigiByte Core, IPFS and a DigiAsset node, which then keeps itself up to date. Nodes join the DigiStamp storage pool, helping keep DigiAsset files available.",
     "url": "https://github.com/chopperbriano/DigiAssetWindows",
     "link_social": " Find it here: https://github.com/chopperbriano/DigiAssetWindows",
